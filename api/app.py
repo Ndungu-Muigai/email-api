@@ -2,10 +2,8 @@ from flask import Flask, make_response, jsonify, request
 from flask_restful import Api, Resource
 import sib_api_v3_sdk
 import os
-from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)  # Add this line to handle CORS
 api = Api(app)
 
 class Index(Resource):
