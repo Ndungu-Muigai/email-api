@@ -8,10 +8,14 @@ app = Flask(__name__)
 CORS(app)  # Add this line to handle CORS
 api = Api(app)
 
-class SendEmail(Resource):
+class Index(Resource):
     def get(self):
         return make_response(jsonify({"message": "Welcome to the email API"}))
     
+api.add_resource(Index, "/")
+
+class SendEmail(Resource):
+
     def post(self):
         try:
             #Capturing the data from the form
