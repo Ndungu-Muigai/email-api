@@ -37,7 +37,6 @@ class SendEmail(Resource):
             api_instance = sib_api_v3_sdk.TransactionalEmailsApi(sib_api_v3_sdk.ApiClient(configuration))
 
             # Defining the email parameters
-            subject = subject
             sender = {"name": name, "email": email}
             to = [{"email": to_email}]
             email_content = message
@@ -49,7 +48,8 @@ class SendEmail(Resource):
             return make_response(jsonify({"success": "Email sent successfully!"}), 200)
 
         except Exception as e:
-            return make_response(jsonify({"error": "Error sending the email. Please try again later"}), 500)
+            print(e)  # Print the exception to the console for debugging
+            return make_response(jsonify({"error": str(e)}), 500)
 
 api.add_resource(SendEmail, "/send-email")
 
