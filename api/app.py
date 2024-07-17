@@ -25,6 +25,12 @@ class SendEmail(Resource):
             message = request.json["message"]
             to_email = request.json["toEmail"]
 
+            print(name)
+            print(email)
+            print(subject)
+            print(message)
+            print(to_email)
+
             # Function to send the email
             configuration = sib_api_v3_sdk.Configuration()
             configuration.api_key["api-key"] = os.environ["SENDINBLUE_API_KEY"]
