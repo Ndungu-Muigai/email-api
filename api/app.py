@@ -1,9 +1,11 @@
 from flask import Flask, make_response, jsonify, request
 from flask_restful import Api, Resource
+from flask_cors import CORS
 import sib_api_v3_sdk
 import os
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 api = Api(app)
 
 class Index(Resource):
@@ -16,7 +18,7 @@ class SendEmail(Resource):
 
     def post(self):
         try:
-            #Capturing the data from the form
+            # Capturing the data from the form
             name = request.json["name"]
             email = request.json["email"]
             subject = request.json["subject"]
@@ -24,17 +26,17 @@ class SendEmail(Resource):
             to_email = request.json["toEmail"]
 
             # Function to send the email
-            configuration=sib_api_v3_sdk.Configuration()
+            configuration = sib_api_v3_sdk.Configuration()
             configuration.api_key["api-key"] = os.environ["SENDINBLUE_API_KEY"]
-            api_instance=sib_api_v3_sdk.TransactionalEmailsApi(sib_api_v3_sdk.ApiClient(configuration))
+            api_instance = sib_api_v3_sdk.TransactionalEmailsApi(sib_api_v3_sdk.ApiClient(configuration))
 
             # Defining the email parameters
-            subject=subject
-            sender={"name": name, "email": email}
-            to=[{"email": to_email}]
-            email_content=message
+            subject = subject
+            sender = {"name": name, "email": email}
+            to = [{"email": to_email}]
+            email_content = message
 
-            send_email=sib_api_v3_sdk.SendSmtpEmail(to=to, html_content=email_content,sender=sender, subject=subject)
+            send_email = sib_api_v3_sdk.SendSmtpEmail(to=to, html_content=email_content, sender=sender, subject=subject)
 
             api_instance.send_transac_email(send_email)
 
